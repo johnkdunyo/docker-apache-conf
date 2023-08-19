@@ -10,6 +10,7 @@ services:
       - 443:443
     volumes:
       - ./apache/sites:/usr/local/apache2/conf/sites
+      - ./apache/ssl-certificates:/usr/local/apache2/conf/ssl
     environment:
       - TEST_SITE_PORT=3200
       - TEST_NEDCO_WEB_PORT=3201

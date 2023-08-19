@@ -8,8 +8,11 @@ FROM httpd:latest
 # Copy your custom httpd.conf
 COPY httpd.conf /usr/local/apache2/conf/httpd.conf
 
-# Create directories for sites and logs
+# Create directories for sites
 RUN mkdir -p /usr/local/apache2/conf/sites/
+
+# Create directories for ssl
+RUN mkdir -p /usr/local/apache2/conf/ssl/
 
 # Expose port 80
 EXPOSE 80
