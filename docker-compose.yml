@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  apache:
+    build:
+      context: ./apache
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./apache/sites:/usr/local/apache2/conf/sites
+    environment:
+      - TEST_SITE_PORT=3200
+      - TEST_NEDCO_WEB_PORT=3201
+      - TEST_NEDCO_ADMIN_PORT=3202
+    depends_on:
+      - test-nedco-web
+      - test-nedco-admin
+      - test-site
+    networks:
+      - apps_network
+
+  test-nedco-web:
+    image: broadspectrumltd/nedco-web:alpha
+    ports:
+      - "${TEST_NEDCO_WEB_PORT}:3000"
+    environment:
+      - HOSTNAME=${HOSTNAME} 
+    networks:
+      - apps_network
+
+  test-nedco-admin:
+    image: broadspectrumltd/nedco-admin:alpha
+    ports:
+      - "${TEST_NEDCO_ADMIN_PORT}:3000"
+    environment:
+      - HOSTNAME=${HOSTNAME} 
+    networks:
+      - apps_network
+
+  test-site:
+    image: docker.io/broadspectrumltd/website-bsl:v1.0.2
+    ports:
+      - "${TEST_SITE_PORT}:3000"
+    environment:
+      - HOSTNAME=${HOSTNAME} 
+    networks:
+      - apps_network
+
+
+
+  
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  apps_network:
+    driver: bridge
