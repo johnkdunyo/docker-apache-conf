@@ -12,13 +12,11 @@ services:
       - ./apache/sites:/usr/local/apache2/conf/sites
       - ./apache/ssl-certificates:/usr/local/apache2/conf/ssl
     environment:
-      - TEST_SITE_PORT=3200
       - TEST_NEDCO_WEB_PORT=3201
       - TEST_NEDCO_ADMIN_PORT=3202
     depends_on:
       - test-nedco-web
       - test-nedco-admin
-      - test-site
     networks:
       - apps_network
 
@@ -39,17 +37,6 @@ services:
       - HOSTNAME=${HOSTNAME} 
     networks:
       - apps_network
-
-  test-site:
-    image: docker.io/broadspectrumltd/website-bsl:v1.0.2
-    ports:
-      - "${TEST_SITE_PORT}:3000"
-    environment:
-      - HOSTNAME=${HOSTNAME} 
-    networks:
-      - apps_network
-
-
 
   
 
