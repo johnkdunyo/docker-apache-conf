@@ -12,11 +12,24 @@ services:
       - ./apache/sites:/usr/local/apache2/conf/sites
       - ./apache/ssl-certificates:/usr/local/apache2/conf/ssl
     environment:
+      - NEDCO_WEB_PORT=3001
+      - NEDCO_ADMIN_PORT=3002
       - TEST_NEDCO_WEB_PORT=3201
       - TEST_NEDCO_ADMIN_PORT=3202
     depends_on:
       - test-nedco-web
       - test-nedco-admin
+      - nedco-web
+      - nedco-admin
+    networks:
+      - apps_network
+
+  nedco-web:
+    image: broadspectrumltd/nedco-web:v1.0.1 
+    ports:
+      - "${NEDCO_WEB_PORT}:3000"
+    environment:
+      - HOSTNAME=${HOSTNAME} 
     networks:
       - apps_network
 
@@ -24,6 +37,15 @@ services:
     image: broadspectrumltd/nedco-web:alpha
     ports:
       - "${TEST_NEDCO_WEB_PORT}:3000"
+    environment:
+      - HOSTNAME=${HOSTNAME} 
+    networks:
+      - apps_network
+
+  nedco-admin:
+    image: broadspectrumltd/nedco-admin:v1.0.1 
+    ports:
+      - "${NEDCO_ADMIN_PORT}:3000"
     environment:
       - HOSTNAME=${HOSTNAME} 
     networks:
