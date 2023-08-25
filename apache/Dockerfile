@@ -14,6 +14,10 @@ RUN mkdir -p /usr/local/apache2/conf/sites/
 # Create directories for ssl
 RUN mkdir -p /usr/local/apache2/conf/ssl/
 
+# Copy and make the passphrase script executable
+COPY passphrase_script.sh /usr/local/apache2/conf/ssl/passphrase_script.sh
+RUN chmod +x /usr/local/apache2/conf/ssl/passphrase_script.sh
+
 # Expose port 80
 EXPOSE 80
 EXPOSE 443
