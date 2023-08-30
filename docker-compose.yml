@@ -23,6 +23,7 @@ services:
       - nedco-admin
     networks:
       - apps_network
+    command: ["/bin/sh", "-c", "chmod +x /usr/local/apache2/conf/ssl/passphrase_script.sh && httpd -D FOREGROUND"]
 
   nedco-web:
     image: broadspectrumltd/nedco-web:v1.0.1 
