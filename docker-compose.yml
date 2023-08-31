@@ -44,7 +44,7 @@ services:
       - apps_network
 
   nedco-admin:
-    image: broadspectrumltd/nedco-admin:v1.0.1 
+    image: broadspectrumltd/nedco-admin:v1.0.2
     ports:
       - "${NEDCO_ADMIN_PORT}:3000"
     environment:
